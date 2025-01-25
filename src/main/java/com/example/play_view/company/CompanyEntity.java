@@ -1,10 +1,13 @@
 package com.example.play_view.company;
 
+import com.example.play_view.game.GameEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -16,10 +19,13 @@ public class CompanyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_id")
-    long companyId;
+    private long companyId;
 
     @Column(name = "company_name")
-    String companyName;
+    private String companyName;
+
+    @OneToMany(mappedBy = "codCompany", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<GameEntity> games = new ArrayList<>();
 
     public long getCompanyId() {
         return companyId;
