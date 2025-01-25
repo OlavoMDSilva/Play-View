@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: PlayView
+  datasource:
+    url: "jdbc:mysql://localhost:3306/play_view"
+    username: root
+    password: ${MySqlPass}
+
+server:
+  servlet:
+    context-path: /api
