@@ -21,9 +21,9 @@ public class GameEntity {
     @Column(name = "game_id")
     private long gameId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private CompanyEntity codCompany;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cod_company")
+    private CompanyEntity company;
 
     @Column(name = "title")
     private String title;
@@ -49,12 +49,12 @@ public class GameEntity {
         this.gameId = gameId;
     }
 
-    public CompanyEntity getCodCompany() {
-        return codCompany;
+    public CompanyEntity getCompany() {
+        return company;
     }
 
-    public void setCodCompany(CompanyEntity codCompany) {
-        this.codCompany = codCompany;
+    public void setCompany(CompanyEntity company) {
+        this.company = company;
     }
 
     public String getTitle() {
@@ -101,7 +101,7 @@ public class GameEntity {
     public String toString() {
         return "GameEntity{" +
                 "gameId=" + gameId +
-                ", codCompany=" + codCompany +
+                ", codCompany=" + company +
                 ", title='" + title + '\'' +
                 ", coverUrl='" + coverUrl + '\'' +
                 ", releaseDate=" + releaseDate +

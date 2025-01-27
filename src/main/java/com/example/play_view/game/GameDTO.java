@@ -1,5 +1,6 @@
 package com.example.play_view.game;
 
+import com.example.play_view.company.CompanyDTO;
 import com.example.play_view.company.CompanyEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -14,8 +15,7 @@ public record GameDTO(
         long gameId,
 
         @NotNull(message = "Cod Company is mandatory")
-        @NotBlank(message = "Cod Company is mandatory")
-        CompanyEntity codCompany,
+        CompanyDTO company,
 
         @NotNull(message = "Title is mandatory")
         @NotBlank(message = "Title is mandatory")
@@ -24,7 +24,6 @@ public record GameDTO(
         String cover_url,
 
         @NotNull(message = "Release date is mandatory")
-        @NotBlank(message = "Release date is mandatory")
         Date releaseDate,
 
         @NotNull(message = "Description is mandatory")

@@ -1,13 +1,19 @@
 package com.example.play_view.game;
 
+import com.example.play_view.company.CompanyDTOMapper;
+import org.springframework.stereotype.Service;
+
 import java.util.function.Function;
 
+@Service
 public class GameDTOMapper implements Function<GameEntity, GameDTO> {
+    CompanyDTOMapper companyDTOMapper = new CompanyDTOMapper();
+
     @Override
     public GameDTO apply(GameEntity gameEntity) {
         return new GameDTO(
                 gameEntity.getGameId(),
-                gameEntity.getCodCompany(),
+                companyDTOMapper.apply(gameEntity.getCompany()),
                 gameEntity.getTitle(),
                 gameEntity.getCoverUrl(),
                 gameEntity.getReleaseDate(),
@@ -25,7 +31,7 @@ public class GameDTOMapper implements Function<GameEntity, GameDTO> {
             game.setGameId(gameDTO.gameId());
         }
 
-        game.setCodCompany(gameDTO.codCompany());
+        game.setCompany(companyDTOMapper.toEntity(gameDTO.company()));
         game.setTitle(gameDTO.title());
         game.setCoverUrl(gameDTO.cover_url());
         game.setReleaseDate(gameDTO.releaseDate());

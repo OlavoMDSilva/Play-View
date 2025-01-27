@@ -1,7 +1,10 @@
 package com.example.play_view.company;
 
+import org.springframework.stereotype.Service;
+
 import java.util.function.Function;
 
+@Service
 public class CompanyDTOMapper implements Function<CompanyEntity, CompanyDTO> {
 
     @Override

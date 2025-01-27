@@ -24,7 +24,7 @@ public class CompanyEntity {
     @Column(name = "company_name")
     private String companyName;
 
-    @OneToMany(mappedBy = "codCompany", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     List<GameEntity> games = new ArrayList<>();
 
     public long getCompanyId() {
