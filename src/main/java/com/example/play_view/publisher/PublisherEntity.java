@@ -1,9 +1,13 @@
 package com.example.play_view.publisher;
 
+import com.example.play_view.game.GameEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
@@ -20,6 +24,9 @@ public class PublisherEntity {
     @Column(name = "publisher_name")
     private String publisherName;
 
+    @ManyToMany(mappedBy = "publishers")
+    private Set<GameEntity> games = new HashSet<>();
+
     public long getPublisherId() {
         return publisherId;
     }
@@ -34,6 +41,14 @@ public class PublisherEntity {
 
     public void setPublisherName(String publisherName) {
         this.publisherName = publisherName;
+    }
+
+    public Set<GameEntity> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<GameEntity> games) {
+        this.games = games;
     }
 
     @Override

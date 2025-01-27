@@ -1,13 +1,14 @@
 package com.example.play_view.game;
 
 import com.example.play_view.company.CompanyDTO;
-import com.example.play_view.company.CompanyEntity;
+import com.example.play_view.publisher.PublisherDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 import java.sql.Date;
+import java.util.Set;
 
 @Builder
 public record GameDTO(
@@ -16,6 +17,8 @@ public record GameDTO(
 
         @NotNull(message = "Cod Company is mandatory")
         CompanyDTO company,
+
+        Set<PublisherDTO> publishers,
 
         @NotNull(message = "Title is mandatory")
         @NotBlank(message = "Title is mandatory")
