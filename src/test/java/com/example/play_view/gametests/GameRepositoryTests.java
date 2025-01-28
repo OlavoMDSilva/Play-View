@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +47,7 @@ public class GameRepositoryTests {
         game1.setPublishers(publishers);
         game1.setTitle("Dark Souls");
         game1.setCoverUrl("http://");
-        game1.setReleaseDate(new Date(2011, 9, 11));
+        game1.setReleaseDate(LocalDate.parse("2011-9-11"));
         game1.setDescription("HARD");
         game1.setIndication("14+");
 
@@ -56,7 +57,7 @@ public class GameRepositoryTests {
         game2.setPublishers(publishers);
         game2.setTitle("Dark Souls 2");
         game2.setCoverUrl("http://");
-        game2.setReleaseDate(new Date(2014, 3, 22));
+        game2.setReleaseDate(LocalDate.parse("2014-3-22"));
         game2.setDescription("HARD 2");
         game2.setIndication("14+");
 

@@ -16,11 +16,11 @@ public class GameDTOMapper implements Function<GameEntity, GameDTO> {
     public GameDTO apply(GameEntity gameEntity) {
         return new GameDTO(
                 gameEntity.getGameId(),
+                gameEntity.getTitle(),
                 companyDTOMapper.apply(gameEntity.getCompany()),
                 gameEntity.getPublishers().stream()
                         .map(publisherDTOMapper)
                         .collect(Collectors.toSet()),
-                gameEntity.getTitle(),
                 gameEntity.getCoverUrl(),
                 gameEntity.getReleaseDate(),
                 gameEntity.getDescription(),

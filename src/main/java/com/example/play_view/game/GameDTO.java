@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Builder
@@ -15,20 +15,20 @@ public record GameDTO(
         @Valid
         long gameId,
 
+        @NotNull(message = "Title is mandatory")
+        @NotBlank(message = "Title is mandatory")
+        String title,
+
         @NotNull(message = "Cod Company is mandatory")
         CompanyDTO company,
 
         @NotNull(message = "Publishers are mandatory")
         Set<PublisherDTO> publishers,
 
-        @NotNull(message = "Title is mandatory")
-        @NotBlank(message = "Title is mandatory")
-        String title,
-
         String cover_url,
 
         @NotNull(message = "Release date is mandatory")
-        Date releaseDate,
+        LocalDate releaseDate,
 
         @NotNull(message = "Description is mandatory")
         @NotBlank(message = "Description is mandatory")

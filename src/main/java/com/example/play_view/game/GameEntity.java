@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public class GameEntity {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "release_date")
-    private Date releaseDate;
+    private LocalDate releaseDate;
 
     @Column(name = "game_description")
     private String description;
@@ -91,11 +92,11 @@ public class GameEntity {
         this.coverUrl = coverUrl;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

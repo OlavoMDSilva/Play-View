@@ -1,8 +1,15 @@
 package com.example.play_view.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import utility.SpecificationBuilder;
+import utility.SpecificationHelper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,10 +25,56 @@ public class GameServiceImpl implements GameService{
     }
 
     @Override
-    public List<GameDTO> findAll() {
-        return gameRepository.findAll().stream()
+    public boolean existById(long id) {
+        return false;
+    }
+
+    @Override
+    public List<GameDTO> findAll(String order, Sort.Direction orderDir, int pageNum, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(orderDir, order));
+
+        return gameRepository.findAll(pageable).stream()
                 .map(gameDTOMapper)
                 .toList();
     }
 
+    @Override
+    public List<GameDTO> findByAttribute(String order, Sort.Direction orderDir,
+                                         int pageNum, int pageSize,
+                                         List<String> companies, List<String> publishers, List<String> genres,
+                                         String title, LocalDate startDate, LocalDate endDate, String indication) {
+
+        SpecificationHelper<GameEntity> specificationHelper = new SpecificationHelper<>();
+        Specification<GameEntity> spec = new SpecificationBuilder<GameEntity>()
+                .add((root, query, cb) ->
+                        specificationHelper.createLikeSpecification(companies, "company", "companyName", root, cb),
+                        companies != null && !companies.isEmpty())
+                .add((root, query, cb) ->
+                        root.join("publishers").get("publisherName").in(publishers), publishers != null && !publishers.isEmpty())
+//                .add((root, query, cb) ->
+//                        root.join("genres").get("genreName").in(genres), genres != null && !genres.isEmpty())
+                .add((root, query, cb) ->
+                        cb.like(root.get("title"), "%" + title + "%"), title != null && !title.isEmpty())
+                .build();
+
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(orderDir, order));
+
+        return gameRepository.findAll(spec, pageable).stream().map(gameDTOMapper).toList();
+    }
+
+    @Override
+    public List<GameDTO> findById(long id) {
+        return List.of();
+    }
+
+    @Override
+    public GameDTO saveGame() {
+        return null;
+    }
+
+    @Override
+    public void deleteGameById(long id) {
+
+    }
 }
