@@ -46,7 +46,7 @@ public class GameEntity {
     private Date releaseDate;
 
     @Column(name = "game_description")
-    private String gameDescription;
+    private String description;
 
     @Column(name = "indication")
     private String indication;
@@ -99,12 +99,12 @@ public class GameEntity {
         this.releaseDate = releaseDate;
     }
 
-    public String getGameDescription() {
-        return gameDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setGameDescription(String gameDescription) {
-        this.gameDescription = gameDescription;
+    public void setDescription(String gameDescription) {
+        this.description = gameDescription;
     }
 
     public String getIndication() {
@@ -123,7 +123,7 @@ public class GameEntity {
                 ", title='" + title + '\'' +
                 ", coverUrl='" + coverUrl + '\'' +
                 ", releaseDate=" + releaseDate +
-                ", gameDescription='" + gameDescription + '\'' +
+                ", gameDescription='" + description + '\'' +
                 ", indication='" + indication + '\'' +
                 '}';
     }

@@ -18,6 +18,7 @@ public record GameDTO(
         @NotNull(message = "Cod Company is mandatory")
         CompanyDTO company,
 
+        @NotNull(message = "Publishers are mandatory")
         Set<PublisherDTO> publishers,
 
         @NotNull(message = "Title is mandatory")
@@ -31,7 +32,7 @@ public record GameDTO(
 
         @NotNull(message = "Description is mandatory")
         @NotBlank(message = "Description is mandatory")
-        String gameDescription,
+        String description,
 
         @NotNull(message = "Indication is mandatory")
         @NotBlank(message = "Indication is mandatory")

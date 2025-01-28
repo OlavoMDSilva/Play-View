@@ -23,7 +23,7 @@ public class GameDTOMapper implements Function<GameEntity, GameDTO> {
                 gameEntity.getTitle(),
                 gameEntity.getCoverUrl(),
                 gameEntity.getReleaseDate(),
-                gameEntity.getGameDescription(),
+                gameEntity.getDescription(),
                 gameEntity.getIndication()
         );
     }
@@ -44,7 +44,7 @@ public class GameDTOMapper implements Function<GameEntity, GameDTO> {
         game.setTitle(gameDTO.title());
         game.setCoverUrl(gameDTO.cover_url());
         game.setReleaseDate(gameDTO.releaseDate());
-        game.setGameDescription(gameDTO.gameDescription());
+        game.setDescription(gameDTO.description());
         game.setIndication(gameDTO.indication());
         return game;
     }
