@@ -43,7 +43,7 @@ public class GameServiceImpl implements GameService{
     public List<GameDTO> findByAttribute(String order, Sort.Direction orderDir,
                                          int pageNum, int pageSize,
                                          List<String> companies, List<String> publishers, List<String> genres,
-                                         String title, LocalDate startDate, LocalDate endDate, String indication) {
+                                         String title, LocalDate startDate, LocalDate endDate, String restriction) {
 
         SpecificationHelper<GameEntity> specificationHelper = new SpecificationHelper<>();
         Specification<GameEntity> spec = new SpecificationBuilder<GameEntity>()
@@ -51,11 +51,19 @@ public class GameServiceImpl implements GameService{
                         specificationHelper.createLikeSpecification(companies, "company", "companyName", root, cb),
                         companies != null && !companies.isEmpty())
                 .add((root, query, cb) ->
-                        root.join("publishers").get("publisherName").in(publishers), publishers != null && !publishers.isEmpty())
-//                .add((root, query, cb) ->
-//                        root.join("genres").get("genreName").in(genres), genres != null && !genres.isEmpty())
+                        specificationHelper.createLikeSpecification(publishers, "publishers", "publisherName", root, cb),
+                        publishers != null && !publishers.isEmpty())
+                .add((root, query, cb) ->
+                        specificationHelper.createLikeSpecification(genres, "genres", "genre", root, cb),
+                        genres != null && !genres.isEmpty())
                 .add((root, query, cb) ->
                         cb.like(root.get("title"), "%" + title + "%"), title != null && !title.isEmpty())
+                .add((root, query, cb) ->
+                        cb.greaterThanOrEqualTo(root.get("releaseDate"), startDate), startDate != null)
+                .add((root, query, cb) ->
+                        cb.lessThanOrEqualTo(root.get("releaseDate"), endDate), endDate != null)
+                .add((root, query, cb) ->
+                        cb.like(root.get("restriction"), "%" + restriction + "%"), restriction != null && !restriction.isEmpty())
                 .build();
 
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(orderDir, order));

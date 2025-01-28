@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,13 +40,17 @@ public class GameController {
                                                @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize,
                                                @RequestParam(name = "companies", defaultValue = "", required = false) List<String> companies,
-                                               @RequestParam(name = "title", defaultValue = "", required = false) String title
+                                               @RequestParam(name = "publishers", defaultValue = "", required = false) List<String> publishers,
+                                               @RequestParam(name = "genres", defaultValue = "", required = false) List<String> genres,
+                                               @RequestParam(name = "title", defaultValue = "", required = false) String title,
+                                               @RequestParam(name = "startDate", defaultValue = "1000-01-01", required = false) String startDate,
+                                               @RequestParam(name = "endDate", defaultValue = "9999-12-31", required = false) String endDate
     ) {
         Sort.Direction orderDirection = orderDir.equalsIgnoreCase("asc")
                 ? Sort.Direction.ASC
                 : Sort.Direction.DESC;
-        return gameService.findByAttribute(order, orderDirection, pageNum, pageSize, companies, List.of(), List.of(), title,
-                LocalDate.parse("2011-09-22"), LocalDate.parse("2016-10-27"), "");
+        return gameService.findByAttribute(order, orderDirection, pageNum, pageSize, companies, publishers, genres, title,
+                LocalDate.parse(startDate), LocalDate.parse(endDate), "");
     }
 
 }

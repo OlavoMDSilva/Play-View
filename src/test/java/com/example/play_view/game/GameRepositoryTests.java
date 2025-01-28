@@ -1,8 +1,6 @@
-package com.example.play_view.gametests;
+package com.example.play_view.game;
 
 import com.example.play_view.company.CompanyEntity;
-import com.example.play_view.game.GameEntity;
-import com.example.play_view.game.GameRepository;
 import com.example.play_view.publisher.PublisherEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
