@@ -1,6 +1,7 @@
 package com.example.play_view.game;
 
 import com.example.play_view.company.CompanyEntity;
+import com.example.play_view.genre.GenreEntity;
 import com.example.play_view.publisher.PublisherEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +36,13 @@ public class GameEntity {
     )
     private Set<PublisherEntity> publishers = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "games_genres",
+        joinColumns = @JoinColumn(name = "cod_game"),
+        inverseJoinColumns = @JoinColumn(name = "cod_genre")
+    )
+    private Set<GenreEntity> genres = new HashSet<>();
+
     @Column(name = "title")
     private String title;
 
@@ -49,8 +56,8 @@ public class GameEntity {
     @Column(name = "game_description")
     private String description;
 
-    @Column(name = "indication")
-    private String indication;
+    @Column(name = "restriction")
+    private String restriction;
 
     public long getGameId() {
         return gameId;
@@ -74,6 +81,14 @@ public class GameEntity {
 
     public void setPublishers(Set<PublisherEntity> publishers) {
         this.publishers = publishers;
+    }
+
+    public Set<GenreEntity> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<GenreEntity> genres) {
+        this.genres = genres;
     }
 
     public String getTitle() {
@@ -108,12 +123,12 @@ public class GameEntity {
         this.description = gameDescription;
     }
 
-    public String getIndication() {
-        return indication;
+    public String getRestriction() {
+        return restriction;
     }
 
-    public void setIndication(String indication) {
-        this.indication = indication;
+    public void setRestriction(String restriction) {
+        this.restriction = restriction;
     }
 
     @Override
@@ -125,7 +140,7 @@ public class GameEntity {
                 ", coverUrl='" + coverUrl + '\'' +
                 ", releaseDate=" + releaseDate +
                 ", gameDescription='" + description + '\'' +
-                ", indication='" + indication + '\'' +
+                ", indication='" + restriction + '\'' +
                 '}';
     }
 }

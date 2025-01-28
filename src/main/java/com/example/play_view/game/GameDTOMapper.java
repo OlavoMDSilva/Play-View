@@ -1,6 +1,7 @@
 package com.example.play_view.game;
 
 import com.example.play_view.company.CompanyDTOMapper;
+import com.example.play_view.genre.GenreDTOMapper;
 import com.example.play_view.publisher.PublisherDTOMapper;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 public class GameDTOMapper implements Function<GameEntity, GameDTO> {
     CompanyDTOMapper companyDTOMapper = new CompanyDTOMapper();
     PublisherDTOMapper publisherDTOMapper = new PublisherDTOMapper();
+    GenreDTOMapper genreDTOMapper = new GenreDTOMapper();
 
     @Override
     public GameDTO apply(GameEntity gameEntity) {
@@ -21,10 +23,13 @@ public class GameDTOMapper implements Function<GameEntity, GameDTO> {
                 gameEntity.getPublishers().stream()
                         .map(publisherDTOMapper)
                         .collect(Collectors.toSet()),
+                gameEntity.getGenres().stream()
+                        .map(genreDTOMapper)
+                        .collect(Collectors.toSet()),
                 gameEntity.getCoverUrl(),
                 gameEntity.getReleaseDate(),
                 gameEntity.getDescription(),
-                gameEntity.getIndication()
+                gameEntity.getRestriction()
         );
     }
 
@@ -41,11 +46,14 @@ public class GameDTOMapper implements Function<GameEntity, GameDTO> {
         game.setPublishers(gameDTO.publishers().stream()
                 .map(publisherDTOMapper::toEntity)
                 .collect(Collectors.toSet()));
+        game.setGenres(gameDTO.genres().stream()
+                .map(genreDTOMapper::toEntity)
+                .collect(Collectors.toSet()));
         game.setTitle(gameDTO.title());
         game.setCoverUrl(gameDTO.cover_url());
         game.setReleaseDate(gameDTO.releaseDate());
         game.setDescription(gameDTO.description());
-        game.setIndication(gameDTO.indication());
+        game.setRestriction(gameDTO.restriction());
         return game;
     }
 

@@ -12,7 +12,6 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +48,7 @@ public class GameRepositoryTests {
         game1.setCoverUrl("http://");
         game1.setReleaseDate(LocalDate.parse("2011-9-11"));
         game1.setDescription("HARD");
-        game1.setIndication("14+");
+        game1.setRestriction("14+");
 
         GameEntity game2 = new GameEntity();
         game2.setGameId(0);
@@ -59,7 +58,7 @@ public class GameRepositoryTests {
         game2.setCoverUrl("http://");
         game2.setReleaseDate(LocalDate.parse("2014-3-22"));
         game2.setDescription("HARD 2");
-        game2.setIndication("14+");
+        game2.setRestriction("14+");
 
         when(gameRepository.findAll()).thenReturn(List.of(game1, game2));
 
