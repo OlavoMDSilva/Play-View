@@ -59,6 +59,18 @@ public record GameController(GameServiceImpl gameService) {
         return gameService.saveGame(gameDTO);
     }
 
+    @PutMapping("/{id}")
+    public GameDTO updateGame(@RequestBody GameDTO gameDTO, @PathVariable long id) {
+        if (id <= 0) {
+            throw new RuntimeException("Id must greater than 0");
+        }
+
+        GameDTO updatedGame = new GameDTO(id, gameDTO.title(), gameDTO.company(), gameDTO.publishers(), gameDTO.genres(),
+                gameDTO.coverUrl(), gameDTO.releaseDate(), gameDTO.description(), gameDTO.restriction());
+
+        return gameService.saveGame(updatedGame);
+    }
+
     @DeleteMapping("/{id}")
     public String deleteGameById(@PathVariable long id) {
         gameService.deleteGameById(id);

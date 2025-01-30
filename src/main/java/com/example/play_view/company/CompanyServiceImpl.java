@@ -71,4 +71,8 @@ public class CompanyServiceImpl implements CompanyService {
     public void deleteCompanyById(long id) {
         companyRepository.deleteById(id);
     }
+
+    public CompanyDTO findByName(String company) {
+        return companyDTOMapper.apply(companyRepository.findByCompanyName(company));
+    }
 }

@@ -1,5 +1,14 @@
 package com.example.play_view.game;
 
+import com.example.play_view.company.CompanyEntity;
+import com.example.play_view.company.CompanyRepository;
+import com.example.play_view.genre.GenreDTO;
+import com.example.play_view.genre.GenreEntity;
+import com.example.play_view.genre.GenreRepository;
+import com.example.play_view.publisher.PublisherDTO;
+import com.example.play_view.publisher.PublisherEntity;
+import com.example.play_view.publisher.PublisherRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,17 +19,26 @@ import utility.SpecificationBuilder;
 import utility.SpecificationHelper;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameService{
 
     private GameRepository gameRepository;
+    private CompanyRepository companyRepository;
+    private PublisherRepository publisherRepository;
+    private GenreRepository genreRepository;
     private GameDTOMapper gameDTOMapper;
 
     @Autowired
-    public GameServiceImpl(GameRepository gameRepository, GameDTOMapper gameDTOMapper) {
+    public GameServiceImpl(GameRepository gameRepository, CompanyRepository companyRepository, PublisherRepository publisherRepository, GenreRepository genreRepository, GameDTOMapper gameDTOMapper) {
         this.gameRepository = gameRepository;
+        this.companyRepository = companyRepository;
+        this.publisherRepository = publisherRepository;
+        this.genreRepository = genreRepository;
         this.gameDTOMapper = gameDTOMapper;
     }
 
@@ -80,9 +98,28 @@ public class GameServiceImpl implements GameService{
 
     @Override
     public GameDTO saveGame(GameDTO gameDTO) {
-        // TODO: populate GameDTO company, publishers and genres before saving/updating
+        CompanyEntity company = companyRepository.findByCompanyName(gameDTO.company().companyName());
+
+        Set<PublisherEntity> publishers = new HashSet<>(publisherRepository.findAllByPublisherNameIn(
+                gameDTO.publishers().stream()
+                        .map(PublisherDTO::publisherName)
+                        .toList()
+        ));
+
+        Set<GenreEntity> genres = new HashSet<>(genreRepository.findAllByGenreIn(
+                gameDTO.genres().stream()
+                        .map(GenreDTO::genre)
+                        .toList()
+        ));
+
         GameEntity game = gameDTOMapper.toEntity(gameDTO);
+
+        game.setCompany(company);
+        game.setPublishers(publishers);
+        game.setGenres(genres);
+
         GameEntity savedGame = gameRepository.save(game);
+
         return gameDTOMapper.apply(savedGame);
     }
 
