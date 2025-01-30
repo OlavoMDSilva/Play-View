@@ -51,6 +51,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/genres").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/genres/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/genres/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/publishers").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/publishers/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/publishers").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/publishers/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/publishers/**").hasRole("ADMIN")
             ).httpBasic(Customizer.withDefaults());
 
         return httpSecurity.build();
