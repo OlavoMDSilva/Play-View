@@ -30,7 +30,7 @@ public record GameDTO(
         @NotNull(message = "Genres are mandatory")
         Set<GenreDTO> genres,
 
-        String cover_url,
+        String coverUrl,
 
         @NotNull(message = "Release date is mandatory")
         LocalDate releaseDate,

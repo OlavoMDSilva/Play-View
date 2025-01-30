@@ -50,7 +50,7 @@ public class GameDTOMapper implements Function<GameEntity, GameDTO> {
                 .map(genreDTOMapper::toEntity)
                 .collect(Collectors.toSet()));
         game.setTitle(gameDTO.title());
-        game.setCoverUrl(gameDTO.cover_url());
+        game.setCoverUrl(gameDTO.coverUrl());
         game.setReleaseDate(gameDTO.releaseDate());
         game.setDescription(gameDTO.description());
         game.setRestriction(gameDTO.restriction());

@@ -1,11 +1,9 @@
 package com.example.play_view.game;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +32,11 @@ public class GameController {
         return gameService.findAll(order, orderDirection, pageNum, pageSize);
     }
 
+    @GetMapping("/{id}")
+    public List<GameDTO> findGameById(@PathVariable long id) {
+        return gameService.findById(id);
+    }
+
     @GetMapping("/filters")
     public List<GameDTO> findAllGamesByFilters(@RequestParam(name = "orderBy", defaultValue = "gameId", required = false) String order,
                                                @RequestParam(name = "orderDirection", defaultValue = "asc", required = false) String orderDir,
@@ -51,6 +54,17 @@ public class GameController {
                 : Sort.Direction.DESC;
         return gameService.findByAttribute(order, orderDirection, pageNum, pageSize, companies, publishers, genres, title,
                 LocalDate.parse(startDate), LocalDate.parse(endDate), "");
+    }
+
+    @PostMapping
+    public GameDTO createGame(@Valid @RequestBody GameDTO gameDTO) {
+        return gameService.saveGame(gameDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteGameById(@PathVariable long id) {
+        gameService.deleteGameById(id);
+        return "Game with Id: " + id + " successfully deleted";
     }
 
 }

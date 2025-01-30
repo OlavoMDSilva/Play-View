@@ -73,16 +73,20 @@ public class GameServiceImpl implements GameService{
 
     @Override
     public List<GameDTO> findById(long id) {
-        return List.of();
+        return gameRepository.findById(id).stream()
+                .map(gameDTOMapper)
+                .toList();
     }
 
     @Override
-    public GameDTO saveGame() {
-        return null;
+    public GameDTO saveGame(GameDTO gameDTO) {
+        GameEntity game = gameDTOMapper.toEntity(gameDTO);
+        GameEntity savedGame = gameRepository.save(game);
+        return gameDTOMapper.apply(savedGame);
     }
 
     @Override
     public void deleteGameById(long id) {
-
+        gameRepository.deleteById(id);
     }
 }
