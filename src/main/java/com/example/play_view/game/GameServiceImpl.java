@@ -80,6 +80,7 @@ public class GameServiceImpl implements GameService{
 
     @Override
     public GameDTO saveGame(GameDTO gameDTO) {
+        // TODO: populate GameDTO company, publishers and genres before saving/updating
         GameEntity game = gameDTOMapper.toEntity(gameDTO);
         GameEntity savedGame = gameRepository.save(game);
         return gameDTOMapper.apply(savedGame);

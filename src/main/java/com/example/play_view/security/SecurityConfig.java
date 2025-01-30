@@ -34,11 +34,16 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
 //                            .anyRequest().permitAll()
+                        .requestMatchers(HttpMethod.GET, "/companies").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/companies/**").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/games").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/games/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/games").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/companies").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/games/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/companies/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/games/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/companies/**").hasRole("ADMIN")
             ).httpBasic(Customizer.withDefaults());
 
         return httpSecurity.build();

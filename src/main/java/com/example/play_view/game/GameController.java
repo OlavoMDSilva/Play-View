@@ -10,9 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/games")
-public class GameController {
-
-    private GameServiceImpl gameService;
+public record GameController(GameServiceImpl gameService) {
 
     @Autowired
     public GameController(GameServiceImpl gameService) {

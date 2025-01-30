@@ -9,7 +9,7 @@ import java.util.List;
 public interface GameService {
     boolean existById(long id);
     List<GameDTO> findAll(String order, Sort.Direction orderDir, int pageNum, int pageSize);
-    List<GameDTO> findByAttribute(String orderField, Sort.Direction orderDirection,
+    List<GameDTO> findByAttribute(String order, Sort.Direction orderDir,
                                   int pageNum, int pageSize,
                                   List<String> companies, List<String> publishers, List<String> genres,
                                   String title, LocalDate startDate, LocalDate endDate, String indication);
