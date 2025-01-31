@@ -13,7 +13,7 @@
 
 **Play View** is a REST API platform designed to help users discover, review, and explore video games. The API provides endpoints for managing game data, including searching, filtering, and reviewing games.
 
-This project is a **work in progress (WIP)** and is built using **Spring Boot** for the backend, with HATEOAS to provide hypermedia-driven API responses. The project aims to deliver a complete backend solution for a game review platform, with plans to deploy it publicly once fully developed.
+This project is a **work in progress** and is built using **Spring Boot** for the backend, with HATEOAS to provide hypermedia-driven API responses. The project aims to deliver a complete backend solution for a game review platform, with plans to deploy it publicly once fully developed.
 
 ### 💻 Features
 
