@@ -2,9 +2,9 @@
 
 ![Play View Banner](https://github.com/OlavoMDSilva/Play-View/blob/main/PlayViewBanner.png?raw=true)
 
-![Java](https://img.shields.io/badge/Java-green)
-![Spring Boot](https://img.shields.io/badge/Spring%20boot-dark_green)
-![REST API](https://img.shields.io/badge/REST-green)
+![Java](https://img.shields.io/badge/Java-8B0000)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2F6F3F)
+![REST API](https://img.shields.io/badge/REST-0099CC)
 ![HATEOAS](https://img.shields.io/badge/HATEOAS-blue)
 
 </div>
