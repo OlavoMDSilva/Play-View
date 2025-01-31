@@ -1,6 +1,6 @@
 <div align="center">
 
-![Play View Banner](https://github.com/OlavoMDSilva/Play-View/blob/main/Play ViewBanner.png?raw=true)
+![Play View Banner](https://github.com/OlavoMDSilva/Play-View/blob/main/PlayViewBanner.png?raw=true)
 
 ![Java](https://img.shields.io/badge/Java-8B0000)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2F6F3F)
