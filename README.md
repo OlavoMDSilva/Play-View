@@ -1,6 +1,6 @@
 <div align="center">
 
-![Play View Banner](https://github.com/OlavoMDSilva/Play-View/blob/main/PlayViewBanner.png?raw=true)
+![Play View Banner](https://github.com/OlavoMDSilva/Play-View/blob/main/Play ViewBanner.png?raw=true)
 
 ![Java](https://img.shields.io/badge/Java-8B0000)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2F6F3F)
@@ -9,9 +9,9 @@
 
 </div>
 
-## 📌 About PlayView
+## 📌 About Play View
 
-**PlayView** is a REST API platform designed to help users discover, review, and explore video games. The API provides endpoints for managing game data, including searching, filtering, and reviewing games.
+**Play View** is a REST API platform designed to help users discover, review, and explore video games. The API provides endpoints for managing game data, including searching, filtering, and reviewing games.
 
 This project is a **work in progress (WIP)** and is built using **Spring Boot** for the backend, with HATEOAS to provide hypermedia-driven API responses. The project aims to deliver a complete backend solution for a game review platform, with plans to deploy it publicly once fully developed.
 
