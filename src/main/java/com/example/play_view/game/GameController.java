@@ -1,5 +1,6 @@
 package com.example.play_view.game;
 
+import com.example.play_view.validation.EntityNotFound;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -40,7 +41,7 @@ public record GameController(GameServiceImpl gameService) {
                                                @RequestParam(name = "orderDirection", defaultValue = "asc", required = false) String orderDir,
                                                @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize,
-                                               @RequestParam(name = "companies", defaultValue = "", required = false) List<String> companies,
+                                               @RequestParam(name = "company", defaultValue = "", required = false) List<String> companies,
                                                @RequestParam(name = "publishers", defaultValue = "", required = false) List<String> publishers,
                                                @RequestParam(name = "genres", defaultValue = "", required = false) List<String> genres,
                                                @RequestParam(name = "title", defaultValue = "", required = false) String title,

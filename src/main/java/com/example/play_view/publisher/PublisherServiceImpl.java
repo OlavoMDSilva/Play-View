@@ -1,5 +1,6 @@
 package com.example.play_view.publisher;
 
+import com.example.play_view.validation.EntityNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +15,8 @@ import java.util.List;
 @Service
 public class PublisherServiceImpl implements PublisherService{
 
-    private PublisherRepository publisherRepository;
-    private PublisherDTOMapper publisherDTOMapper;
+    private final PublisherRepository publisherRepository;
+    private final PublisherDTOMapper publisherDTOMapper;
 
     @Autowired
     public PublisherServiceImpl(PublisherRepository publisherRepository, PublisherDTOMapper publisherDTOMapper) {
@@ -41,20 +42,22 @@ public class PublisherServiceImpl implements PublisherService{
     public List<PublisherDTO> findByAttribute(String order, Sort.Direction orderDir, int pageNum, int pageSize, String publisher) {
 
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(orderDir, order));
-
-        SpecificationHelper<PublisherEntity> specificationHelper = new SpecificationHelper<>();
         Specification<PublisherEntity> spec = new SpecificationBuilder<PublisherEntity>()
                 .add((root, query, cb) ->
                         cb.like(root.get("publisherName"), "%" + publisher + "%"), publisher != null && !publisher.isEmpty())
                 .build();
 
-        return publisherRepository.findAll(spec, pageable).stream()
+        List<PublisherDTO> publisherDTOS = publisherRepository.findAll(spec, pageable).stream()
                 .map(publisherDTOMapper)
                 .toList();
+
+        if (publisherDTOS.isEmpty()) throw new EntityNotFound("Publisher: " + publisher + " not found");
+        return publisherDTOS;
     }
 
     @Override
     public List<PublisherDTO> findById(long id) {
+        if (!existById(id)) throw new EntityNotFound("Publisher with ID: " + id + " not found");
         return publisherRepository.findById(id).stream()
                 .map(publisherDTOMapper)
                 .toList();

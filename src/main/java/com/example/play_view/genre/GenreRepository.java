@@ -9,5 +9,5 @@ import java.util.Set;
 
 @Repository
 public interface GenreRepository extends JpaRepository<GenreEntity, Long>, JpaSpecificationExecutor<GenreEntity> {
-    Set<GenreEntity> findAllByGenreIn(List<String> genres);
+    Set<GenreEntity> findAllByGenreIn(Set<String> genres);
 }

@@ -9,5 +9,5 @@ import java.util.Set;
 
 @Repository
 public interface PublisherRepository extends JpaRepository<PublisherEntity, Long>, JpaSpecificationExecutor<PublisherEntity> {
-    Set<PublisherEntity> findAllByPublisherNameIn(List<String> publisherNames);
+    Set<PublisherEntity> findAllByPublisherNameIn(Set<String> publisherNames);
 }

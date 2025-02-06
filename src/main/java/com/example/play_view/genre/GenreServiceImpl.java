@@ -1,5 +1,6 @@
 package com.example.play_view.genre;
 
+import com.example.play_view.validation.EntityNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +15,8 @@ import java.util.List;
 @Service
 public class GenreServiceImpl implements GenreService {
 
-    private GenreRepository genreRepository;
-    private GenreDTOMapper genreDTOMapper;
+    private final GenreRepository genreRepository;
+    private final GenreDTOMapper genreDTOMapper;
 
     @Autowired
     public GenreServiceImpl(GenreRepository genreRepository, GenreDTOMapper genreDTOMapper) {
@@ -48,13 +49,17 @@ public class GenreServiceImpl implements GenreService {
                         cb.like(root.get("genre"), "%" + genre + "%"), genre != null && !genre.isEmpty())
                 .build();
 
-        return genreRepository.findAll(spec, pageable).stream()
+        List<GenreDTO> genreDTOS = genreRepository.findAll(spec, pageable).stream()
                 .map(genreDTOMapper)
                 .toList();
+
+        if (genreDTOS.isEmpty()) throw new EntityNotFound("Genre: " + genre + " not found");
+        return genreDTOS;
     }
 
     @Override
     public List<GenreDTO> findById(long id) {
+        if (!existById(id)) throw new EntityNotFound("Genre with ID: " + id + " not found");
         return genreRepository.findById(id).stream()
                 .map(genreDTOMapper)
                 .toList();
@@ -69,6 +74,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void deleteGenreById(long id) {
+        if (!existById(id)) throw new EntityNotFound("Genre with ID: " + id + " not found");
         genreRepository.deleteById(id);
     }
 }

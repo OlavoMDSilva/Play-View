@@ -1,5 +1,6 @@
 package com.example.play_view.company;
 
+import com.example.play_view.validation.EntityNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +15,8 @@ import java.util.List;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
-    private CompanyRepository companyRepository;
-    private CompanyDTOMapper companyDTOMapper;
+    private final CompanyRepository companyRepository;
+    private final CompanyDTOMapper companyDTOMapper;
 
     @Autowired
     public CompanyServiceImpl(CompanyRepository companyRepository, CompanyDTOMapper companyDTOMapper) {
@@ -39,22 +40,24 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDTO> findByAttribute(String order, Sort.Direction orderDir, int pageNum, int pageSize, String companyName) {
-
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(orderDir, order));
 
-        SpecificationHelper<CompanyEntity> specificationHelper = new SpecificationHelper<>();
         Specification<CompanyEntity> spec = new SpecificationBuilder<CompanyEntity>()
                 .add((root, query, cb) ->
                         cb.like(root.get("companyName"), "%" + companyName + "%"), companyName != null && !companyName.isEmpty())
                 .build();
 
-        return companyRepository.findAll(spec, pageable).stream()
+        List<CompanyDTO> companyDTOS = companyRepository.findAll(spec, pageable).stream()
                 .map(companyDTOMapper)
                 .toList();
+
+        if (companyDTOS.isEmpty()) throw new EntityNotFound("Company: " + companyName + " not found");
+        return companyDTOS;
     }
 
     @Override
     public List<CompanyDTO> findById(long id) {
+        if (!existById(id)) throw new EntityNotFound("Company with ID: " + id + " not found");
         return companyRepository.findById(id).stream()
                 .map(companyDTOMapper)
                 .toList();
@@ -69,10 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void deleteCompanyById(long id) {
+        if (!existById(id)) throw new EntityNotFound("Company with ID: " + id + " not found");
         companyRepository.deleteById(id);
-    }
-
-    public CompanyDTO findByName(String company) {
-        return companyDTOMapper.apply(companyRepository.findByCompanyName(company));
     }
 }

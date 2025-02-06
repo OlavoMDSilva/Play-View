@@ -10,7 +10,7 @@ public interface PublisherService {
     List<PublisherDTO> findAll(String order, Sort.Direction orderDir, int pageNum, int pageSize);
     List<PublisherDTO> findByAttribute(String order, Sort.Direction orderDir,
                                    int pageNum, int pageSize,
-                                   String publisherName);
+                                   String publisherNames);
     List<PublisherDTO> findById(long id);
     @Transactional
     PublisherDTO savePublisher(PublisherDTO publisherDTO);

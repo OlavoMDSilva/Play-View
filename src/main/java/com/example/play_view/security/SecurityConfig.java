@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,35 +30,24 @@ public class SecurityConfig {
         return jdbcUserDetailsManager;
     }
 
+    private void configurePermissions(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth, String basePath) {
+        auth.requestMatchers(HttpMethod.GET, basePath).hasRole("USER")
+            .requestMatchers(HttpMethod.GET, basePath + "/**").hasRole("USER")
+            .requestMatchers(HttpMethod.POST, basePath).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.PUT, basePath + "/**").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, basePath + "/**").hasRole("ADMIN");
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-//                            .anyRequest().permitAll()
-                        .requestMatchers(HttpMethod.GET, "/games").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/games/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/games").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/games/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/games/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.GET, "/companies").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/companies/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/companies").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/companies/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/companies/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.GET, "/genres").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/genres/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/genres").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/genres/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/genres/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.GET, "/publishers").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/publishers/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/publishers").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/publishers/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/publishers/**").hasRole("ADMIN")
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> {
+                        configurePermissions(auth, "/games");
+                        configurePermissions(auth, "/companies");
+                        configurePermissions(auth, "/genres");
+                        configurePermissions(auth, "/publishers");
+                    }
             ).httpBasic(Customizer.withDefaults());
 
         return httpSecurity.build();
