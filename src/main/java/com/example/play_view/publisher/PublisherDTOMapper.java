@@ -1,9 +1,10 @@
 package com.example.play_view.publisher;
 
-import com.example.play_view.game.GameEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
+@Service
 public class PublisherDTOMapper implements Function<PublisherEntity, PublisherDTO> {
     @Override
     public PublisherDTO apply(PublisherEntity publisherEntity) {

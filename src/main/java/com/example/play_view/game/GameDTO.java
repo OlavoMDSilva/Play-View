@@ -6,6 +6,7 @@ import com.example.play_view.genre.GenreEntity;
 import com.example.play_view.publisher.PublisherDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
@@ -25,12 +26,14 @@ public record GameDTO(
         CompanyDTO company,
 
         @NotNull(message = "Publishers are mandatory")
+        @NotEmpty(message = "Publishers are mandatory")
         Set<PublisherDTO> publishers,
 
         @NotNull(message = "Genres are mandatory")
+        @NotEmpty(message = "Genres are mandatory")
         Set<GenreDTO> genres,
 
-        String cover_url,
+        String coverUrl,
 
         @NotNull(message = "Release date is mandatory")
         LocalDate releaseDate,

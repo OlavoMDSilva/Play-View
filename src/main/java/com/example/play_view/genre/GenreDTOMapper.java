@@ -2,9 +2,11 @@ package com.example.play_view.genre;
 
 import com.example.play_view.publisher.PublisherDTO;
 import com.example.play_view.publisher.PublisherEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
+@Service
 public class GenreDTOMapper implements Function<GenreEntity, GenreDTO> {
     @Override
     public GenreDTO apply(GenreEntity genreEntity) {
