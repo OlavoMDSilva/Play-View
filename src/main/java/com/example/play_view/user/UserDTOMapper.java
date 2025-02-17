@@ -32,7 +32,7 @@ public class UserDTOMapper implements Function<UserEntity, UserDTO> {
             user.setUserId(userDTO.userId());
         }
 
-        user.setUserName(user.getUserName());
+        user.setUserName(userDTO.userName());
         user.setEmail(userDTO.email());
         user.setUserPassword(encoder.encode(userDTO.password()));
         user.setProfileUrl(userDTO.profileUrl());

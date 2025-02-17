@@ -8,16 +8,28 @@ import java.util.List;
 
 public interface UserService {
     boolean existById(long id);
+
     boolean existByEmail(String email);
+
     List<UserDTO> findAll(String order, Sort.Direction orderDir, int pageNum, int pageSize);
+
     List<UserDTO> findByAttribute(String order, Sort.Direction orderDir,
                                   int pageNum, int pageSize,
-                                  String name, String email, String phoneNum, LocalDate birthStart, LocalDate birthEnd, boolean status);
+                                  String name, String email, String phoneNum, LocalDate birthStart, LocalDate birthEnd);
+
     List<UserDTO> findById(long id);
+
+    UserDTO findByEmail(String email);
+
+    @Transactional
+    UserDTO saveUser(CreateUserDTO userDTO);
+
     @Transactional
     UserDTO saveUser(CreateUserDTO userDTO, boolean isAdmin);
+
     @Transactional
     void deleteUserById(long id);
+
     @Transactional
     void deleteUserByEmail(String email);
 }

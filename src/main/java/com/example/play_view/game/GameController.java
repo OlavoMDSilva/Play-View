@@ -61,10 +61,9 @@ public record GameController(GameServiceImpl gameService) {
     }
 
     @PutMapping("/{id}")
-    public GameDTO updateGame(@RequestBody GameDTO gameDTO, @PathVariable long id) {
-        if (id <= 0) {
-            throw new RuntimeException("Id must greater than 0");
-        }
+    public GameDTO updateGame(@Valid @RequestBody GameDTO gameDTO, @PathVariable long id) {
+        if (id <= 0) throw new RuntimeException("Id must greater than 0");
+        if (!gameService.existById(id)) throw new EntityNotFound("Game with ID: " + id + " not found");
 
         GameDTO updatedGame = new GameDTO(id, gameDTO.title(), gameDTO.company(), gameDTO.publishers(), gameDTO.genres(),
                 gameDTO.coverUrl(), gameDTO.releaseDate(), gameDTO.description(), gameDTO.restriction());

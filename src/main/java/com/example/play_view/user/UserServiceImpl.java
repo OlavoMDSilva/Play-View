@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserDTO> findByAttribute(String order, Sort.Direction orderDir, int pageNum, int pageSize, String name, String email,
-                                         String phoneNum, LocalDate birthStart, LocalDate birthEnd, boolean status) {
+                                         String phoneNum, LocalDate birthStart, LocalDate birthEnd) {
         SpecificationHelper<UserEntity> specificationHelper = new SpecificationHelper<>();
         Specification<UserEntity> spec = new SpecificationBuilder<UserEntity>()
                 .add((root, query, cb) ->
@@ -76,11 +76,28 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO saveUser(CreateUserDTO userDTO, boolean isAdmin) {
+    public UserDTO findByEmail(String email) {
+        if (!existByEmail(email)) throw new EntityNotFound("User with email: " + email + " not found");
+        return userDTOMapper.apply(userRepository.findByEmail(email));
+    }
+
+    @Override
+    public UserDTO saveUser(CreateUserDTO userDTO) {
         UserEntity user = userDTOMapper.toEntity(userDTO);
+        user.setStatus(true);
         UserEntity savedUser = userRepository.save(user);
 
-        if (!isAdmin) userRepository.assignRole(savedUser.getUserId(), "ROLE_USER");
+        return userDTOMapper.apply(savedUser);
+    }
+
+    @Override
+    public UserDTO saveUser(CreateUserDTO userDTO, boolean isAdmin) {
+        UserEntity user = userDTOMapper.toEntity(userDTO);
+        user.setStatus(true);
+        UserEntity savedUser = userRepository.save(user);
+
+        String role = isAdmin ? "ROLE_ADMIN" : "ROLE_USER";
+        userRepository.assignRole(savedUser.getUserId(), role);
 
         return userDTOMapper.apply(savedUser);
     }
@@ -89,7 +106,6 @@ public class UserServiceImpl implements UserService{
     public void deleteUserById(long id) {
         if (!existById(id)) throw new EntityNotFound("User with id: " + id + " not found");
         userRepository.deleteById(id);
-
     }
 
     @Override

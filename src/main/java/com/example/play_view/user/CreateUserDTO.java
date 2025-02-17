@@ -25,7 +25,6 @@ public record CreateUserDTO(
         String userPhoneNum,
 
         @NotNull(message = "Birth date is mandatory")
-        @NotEmpty(message = "Birth date is mandatory")
         LocalDate birthDate,
 
         boolean status
