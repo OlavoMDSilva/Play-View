@@ -1,18 +1,26 @@
 package com.example.play_view.security;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.juli.logging.Log;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
+@Slf4j
+@EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
 
@@ -27,19 +35,38 @@ public class SecurityConfig {
                 where u.email = ?;
                 """);
 
+        jdbcUserDetailsManager.setEnableGroups(false);
+        jdbcUserDetailsManager.setEnableAuthorities(true);
+
+
         return jdbcUserDetailsManager;
     }
 
+    @Bean
+    public AuthenticationProvider authenticationProvider(UserDetailsManager userDetailsManager) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsManager);
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
+        return provider;
+    }
+
     private void configurePermissions(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth, String basePath) {
-        auth.requestMatchers(HttpMethod.GET, basePath).hasRole("USER")
-            .requestMatchers(HttpMethod.GET, basePath + "/**").hasRole("USER")
-            .requestMatchers(HttpMethod.POST, basePath).hasRole("ADMIN")
-            .requestMatchers(HttpMethod.PUT, basePath + "/**").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, basePath + "/**").hasRole("ADMIN");
+        switch (basePath) {
+            case "/reviews" -> auth.requestMatchers(HttpMethod.POST, basePath).hasAnyRole("USER")
+                    .requestMatchers(HttpMethod.PUT, basePath + "/**").hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, basePath + "/**").hasAnyRole("USER", "ADMIN");
+
+            case "/users" -> auth.requestMatchers(HttpMethod.PUT, basePath + "/**").hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, basePath + "/**").hasAnyRole("USER", "ADMIN");
+
+            default -> auth.requestMatchers(HttpMethod.POST, basePath).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, basePath + "/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, basePath + "/**").hasRole("ADMIN");
+        }
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, AuthenticationProvider authenticationProvider) throws Exception {
         httpSecurity
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> {
@@ -47,8 +74,12 @@ public class SecurityConfig {
                         configurePermissions(auth, "/companies");
                         configurePermissions(auth, "/genres");
                         configurePermissions(auth, "/publishers");
+                        configurePermissions(auth, "/users");
+                        configurePermissions(auth, "/reviews");
+                        auth.anyRequest().permitAll();
                     }
-            ).httpBasic(Customizer.withDefaults());
+            ).authenticationProvider(authenticationProvider)
+            .httpBasic(Customizer.withDefaults());
 
         return httpSecurity.build();
     }

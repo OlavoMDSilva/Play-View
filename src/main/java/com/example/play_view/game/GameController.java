@@ -41,7 +41,7 @@ public record GameController(GameServiceImpl gameService) {
                                                @RequestParam(name = "orderDirection", defaultValue = "asc", required = false) String orderDir,
                                                @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize,
-                                               @RequestParam(name = "company", defaultValue = "", required = false) List<String> companies,
+                                               @RequestParam(name = "companies", defaultValue = "", required = false) List<String> companies,
                                                @RequestParam(name = "publishers", defaultValue = "", required = false) List<String> publishers,
                                                @RequestParam(name = "genres", defaultValue = "", required = false) List<String> genres,
                                                @RequestParam(name = "title", defaultValue = "", required = false) String title,
@@ -61,10 +61,9 @@ public record GameController(GameServiceImpl gameService) {
     }
 
     @PutMapping("/{id}")
-    public GameDTO updateGame(@RequestBody GameDTO gameDTO, @PathVariable long id) {
-        if (id <= 0) {
-            throw new RuntimeException("Id must greater than 0");
-        }
+    public GameDTO updateGame(@Valid @RequestBody GameDTO gameDTO, @PathVariable long id) {
+        if (id <= 0) throw new RuntimeException("Id must greater than 0");
+        if (!gameService.existById(id)) throw new EntityNotFound("Game with ID: " + id + " not found");
 
         GameDTO updatedGame = new GameDTO(id, gameDTO.title(), gameDTO.company(), gameDTO.publishers(), gameDTO.genres(),
                 gameDTO.coverUrl(), gameDTO.releaseDate(), gameDTO.description(), gameDTO.restriction());

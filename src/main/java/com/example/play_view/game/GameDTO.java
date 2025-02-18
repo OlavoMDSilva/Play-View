@@ -2,9 +2,7 @@ package com.example.play_view.game;
 
 import com.example.play_view.company.CompanyDTO;
 import com.example.play_view.genre.GenreDTO;
-import com.example.play_view.genre.GenreEntity;
 import com.example.play_view.publisher.PublisherDTO;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +13,6 @@ import java.util.Set;
 
 @Builder
 public record GameDTO(
-        @Valid
         long gameId,
 
         @NotNull(message = "Title is mandatory")

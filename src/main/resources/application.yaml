@@ -1,8 +1,14 @@
 spring:
   application:
     name: PlayView
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
   datasource:
-    url: "jdbc:mysql://localhost:3306/play_view"
+    url: "jdbc:mysql://localhost:3306/play_view?createDatabaseIfNotExist=true"
     username: root
     password: ${MySqlPass}
 
@@ -15,3 +21,6 @@ logging:
     org:
       springframework:
         security: DEBUG
+    com:
+      example:
+        play_view: DEBUG

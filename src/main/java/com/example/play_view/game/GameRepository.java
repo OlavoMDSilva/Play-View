@@ -18,4 +18,5 @@ import java.util.List;
 
 @Repository
 public interface GameRepository extends JpaRepository<GameEntity, Long>, JpaSpecificationExecutor<GameEntity> {
+    GameEntity findByTitle(String title);
 }
