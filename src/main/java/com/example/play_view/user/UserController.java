@@ -17,11 +17,9 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceImpl userService;
-    private final UserDTOMapper userDTOMapper;
 
-    public UserController(UserServiceImpl userService, UserDTOMapper userDTOMapper) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
-        this.userDTOMapper = userDTOMapper;
     }
 
     @GetMapping
