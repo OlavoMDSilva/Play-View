@@ -13,7 +13,7 @@
 
 **Play View** is a REST API platform designed to help users discover, review, and explore video games. The API provides endpoints for managing game data, including searching, filtering, and reviewing games.
 
-This project is a **work in progress** and is built using **Spring Boot** for the backend, with HATEOAS to provide hypermedia-driven API responses. The project aims to deliver a complete backend solution for a game review platform, with plans to deploy it publicly once fully developed.
+This project is a **work in progress** and is built using Spring Boot for the backend, with HATEOAS to provide hypermedia-driven API responses. The project aims to deliver a complete backend solution for a game review platform
 
 ### 💻 Features
 
@@ -31,9 +31,37 @@ This project is a **work in progress** and is built using **Spring Boot** for th
 - **Testing:** JUnit, Spring Test
 - **API Documentation:** Swagger (Planned)
 
-## 🚧 Work in Progress
+## 🚧 Work in Progress!!
 
 This project is actively being developed, with future enhancements including:
 
 - **Swagger API Documentation**: To interact easily with the backend and see available endpoints.
-- **Public Deployment**: The backend will be deployed publicly once all features are ready. Cost-effective hosting solutions for both the backend and database are being explored.
+
+## 🚀 Installation
+
+- ### Clone this repository
+  ```bash
+    git clone git@github.com:OlavoMDSilva/Play-View.git
+  ```
+
+- ### Database setup
+
+    - #### Make sure you have MySQL properly installed
+    - #### The Application will create and reset the database automatically when started for showcasing purpose
+
+- ### Configure application
+
+    - #### Open the application.yaml file and update the database connection settings as needed (e.g., your MySQL password). You can set your MySQL password via an environment variable or directly in the file.
+
+- ### Run the Application Locally
+
+  - #### Open the project in your favorite Java IDE (IntelliJ IDEA is recommended) and run the main application class (PlayViewApplication).
+  - #### Alternatively, build and run the project using Maven:
+  ```bash
+  ./mvnw spring-boot:run
+  ```
+  
+- ### Test API
+
+  - #### Once running, the API will be available at: http://localhost:8080/api
+  - #### Use Postman, cURL, or your preferred tool to interact with the endpoints.
