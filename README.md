@@ -5,7 +5,6 @@
 ![Java](https://img.shields.io/badge/Java-8B0000)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2F6F3F)
 ![REST API](https://img.shields.io/badge/REST-0099CC)
-![HATEOAS](https://img.shields.io/badge/HATEOAS-blue)
 
 </div>
 
@@ -13,19 +12,18 @@
 
 **Play View** is a REST API platform designed to help users discover, review, and explore video games. The API provides endpoints for managing game data, including searching, filtering, and reviewing games.
 
-This project is a **work in progress** and is built using Spring Boot for the backend, with HATEOAS to provide hypermedia-driven API responses. The project aims to deliver a complete backend solution for a game review platform
+This project is a **work in progress** and is built using Spring Boot for the backend. The project aims to deliver a complete backend solution for a game review platform
 
 ### 💻 Features
 
 - **Game Management**: API endpoints to create, update, read, and delete games.
 - **Game Reviews**: Users can leave and view reviews for games through the API.
 - **Filtering**: Advanced search and filtering options for games based on various attributes like genre, company, and publisher.
-- **HATEOAS**: Hypermedia links provided in API responses to guide users through available actions.
 - **Swagger Documentation**: Integrated Swagger UI (coming soon) for API documentation.
 
 ## 🛠️ Technologies Used
 
-- **Backend:** Spring Boot (REST API, HATEOAS)
+- **Backend:** Spring Boot (REST API)
 - **Database:** MySQL
 - **Version Control:** Git
 - **Testing:** JUnit, Spring Test
