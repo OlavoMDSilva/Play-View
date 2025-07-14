@@ -8,6 +8,10 @@
 
 </div>
 
+## 🚧 DEPRECATED!!
+
+**WARNING** this project will not be updated anymore, but I want to make a version using Docker and AWS to learn more about DevOps.
+
 ## 📌 About Play View
 
 **Play View** is a REST API platform designed to help users discover, review, and explore video games. The API provides endpoints for managing game data, including searching, filtering, and reviewing games.
@@ -27,13 +31,7 @@ This project is a **work in progress** and is built using Spring Boot for the ba
 - **Database:** MySQL
 - **Version Control:** Git
 - **Testing:** JUnit, Spring Test
-- **API Documentation:** Swagger (Planned)
-
-## 🚧 Work in Progress!!
-
-This project is actively being developed, with future enhancements including:
-
-- **Swagger API Documentation**: To interact easily with the backend and see available endpoints.
+- **API Documentation:** Swagger "http://localhost:8080/api/docs" (Deprecated)
 
 ## 🚀 Installation
 
